@@ -9,9 +9,6 @@ import io
 import urllib, base64
 
 def home(request):
-   
-    #uso de plantilla sin parámetros
-    #return render(request, 'home.html')
 
     # uso de plantilla con parámetros
     #return render(request, 'home.html', {'name':'Paola Vallejo'})
