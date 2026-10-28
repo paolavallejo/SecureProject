@@ -35,7 +35,7 @@
                 <img src="{{ movie.image.url }}" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">{{ movie.title }}</h5>
-                    <p class="card-text">{{ movie.description }}</p>
+                    <p class="card-text">{{ movie.description|safe }}</p>
                     <p class="card-text">{{ movie.genre}}</p>
                     <p class="card-text">{{ movie.year}}</p>
                     {% if movie.url %}
@@ -58,4 +58,16 @@
         <button type="submit" class="btn btn-primary">Sign Up</button> 
     </form>
 </div>
+
+
+<hr>
+
+<h3>Debug Information</h3>
+
+<pre>
+{{ debug_info }}
+</pre>
+
+
 {% endblock content %}
+

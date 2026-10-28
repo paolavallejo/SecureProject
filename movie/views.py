@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
 from .models import Movie
@@ -23,12 +23,25 @@ def home(request):
 
     # si se está buscando una película
     if searchTerm:
+        print(f"Searching for: {searchTerm}")
         # lista únicamente la(s) película(s) cuyo título contiene el nombre buscado
         movies = Movie.objects.filter(title__icontains=searchTerm)
     else: 
         # lista todas las películas de la base de datos
         movies = Movie.objects.all()
-    return render(request, 'home.html', {'searchTerm':searchTerm, 'movies': movies})
+    return render(
+        request,
+        'home.html',
+        {
+            'searchTerm': searchTerm,
+            'movies': movies,
+            'debug_info': {
+                'database': 'SQLite',
+                'total_movies': Movie.objects.count(),
+                'server': 'Django Development Server'
+            }
+        }
+)
 
 
 
@@ -40,6 +53,13 @@ def about(request):
     return render(request, 'about.html')
 
 def statistics_view(request):
+    is_admin = request.GET.get('admin')
+
+    if is_admin != 'true':
+        return HttpResponse(
+            "Acceso restringido a administradores"
+    )
+
     matplotlib.use('Agg')
 
     #====== Gráfica por año ======
@@ -112,5 +132,20 @@ def statistics_view(request):
     })
 
 def signup(request):
-    email = request.GET.get('email') 
-    return render(request, 'signup.html', {'email':email})
+    email = request.GET.get('email')
+
+    next_url = request.GET.get('next')
+
+    if next_url:
+        return redirect(next_url)
+
+    return render(
+        request,
+        'signup.html',
+        {
+            'email': email
+        }
+    )
+
+def error_demo(request):
+    x = 1 / 0
