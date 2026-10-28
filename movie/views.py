@@ -9,9 +9,7 @@ import io
 import urllib, base64
 
 def home(request):
-    # código HTML en views :(
-    # return HttpResponse('<h1>Welcome to Home Page</h1>')
-    
+   
     #uso de plantilla sin parámetros
     #return render(request, 'home.html')
 
